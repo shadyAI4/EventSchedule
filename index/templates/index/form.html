@@ -40,6 +40,13 @@
         <span id="bg-color" style="display: none;">{{form.background_color}}</span>
         <span id="text-color" style="display: none;">{{form.text_color}}</span>
         <div class="margin-top-bottom box question-box" id="form-head">
+            {% if form.cover_photo == "" %}
+            <div class="cover-image-container">
+                <label for="cover-image">Cover Image:</label>
+                <input type="file" id="cover-image" accept="image/*" onchange="previewCoverImage(event)">
+            </div>
+            {% endif %}
+            <img id="cover-image-preview" src="{{form.cover_photo}}" alt="Cover Image Preview" style="display:none;">
             <div class="form-title-box">
                 <input type="text" class="form-title edit-on-click input-form-title txt-clr" value="{{form.title}}">
             </div>

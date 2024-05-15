@@ -25,6 +25,7 @@ class Answer(models.Model):
 class Form(models.Model):
     code = models.CharField(max_length=30)
     title = models.CharField(max_length=200)
+    cover_photo = models.ImageField(upload_to="ImageStore", default="")
     description = models.CharField(max_length=10000, blank = True)
     creator = models.ForeignKey(User, on_delete = models.CASCADE, related_name = "creator")
     background_color = models.CharField(max_length=20, default = "#d9efed")

@@ -110,6 +110,28 @@ def edit_form(request, code):
         "form": formInfo
     })
 
+def edit_image(request, code):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    formInfo = Form.objects.filter(code = code)
+    #Checking if form exists
+    if formInfo.count() == 0:
+        return HttpResponseRedirect(reverse("404"))
+    else: formInfo = formInfo[0]
+    #Checking if form creator is user
+    if formInfo.creator != request.user:
+        return HttpResponseRedirect(reverse("403"))
+    if request.method == "POST":
+        data = json.loads(request.body)
+        if len(data["title"]) > 0:
+            formInfo.cover_photo = data["cover_photo"]
+            formInfo.save()
+        else:
+            formInfo.cover_photo = formInfo.cover_photo[0]
+            formInfo.save()
+        return JsonResponse({"message": "Success", "title": formInfo.cover_photo})
+
+
 def edit_title(request, code):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))

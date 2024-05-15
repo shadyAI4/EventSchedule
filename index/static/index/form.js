@@ -523,4 +523,14 @@ document.addEventListener("DOMContentLoaded", () => {
             deleteQuestion()
         })
     })
+
+    function previewCoverImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var coverImagePreview = document.getElementById('cover-image-preview');
+            coverImagePreview.src = reader.result;
+            coverImagePreview.style.display = 'block';
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
 })
