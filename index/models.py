@@ -40,6 +40,15 @@ class Form(models.Model):
     updatedAt = models.DateTimeField(auto_now = True)
     questions = models.ManyToManyField(Questions, related_name = "questions")
 
+class PhoneNumbers(models.Model):
+    phone = models.CharField(max_length=30, unique=True)
+    form = models.ForeignKey(Form,on_delete=models.CASCADE)
+
+
+class MessageSent(models.Model):
+    message = models.CharField(max_length=10000)
+    form = models.OneToOneField(Form, on_delete=models.CASCADE)
+
 class Responses(models.Model):
     response_code = models.CharField(max_length=20)
     response_to = models.ForeignKey(Form, on_delete = models.CASCADE, related_name = "response_to")

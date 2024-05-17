@@ -18,6 +18,14 @@
             <a href="{% url 'response' form.code code %}" class="btn view-score-btn">View Score</a>
         </div>
         {% endif %}
+
+        <!-- Display the QR code image -->
+        <div style="display:flex;justify-content:center">
+            <img id="qr-code-image" src="{{ qr_code_path }}" alt="QR Code" style="width:15rem">
+        </div>
+        <div style="display:flex;justify-content:center;margin-top:20px;">
+            <a href="{{ qr_code_download_path }}" download="qr_code.png" class="btn btn-primary">Download QR Code</a>
+        </div>
     </div>
 </div>
 {% endblock %}

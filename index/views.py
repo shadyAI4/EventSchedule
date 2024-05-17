@@ -1,15 +1,21 @@
+import os
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.db import IntegrityError
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
-from .models import User, Choices, Questions, Answer, Form, Responses
+import qrcode
+from .models import MessageSent, PhoneNumbers, User, Choices, Questions, Answer, Form, Responses
 from django.core import serializers
 import json
 import random
 import string
 import csv
-
+from django.core.exceptions import ObjectDoesNotExist
+from qrcode import QRCode
+import requests
+from requests.auth import HTTPBasicAuth
+from django.conf import settings
 # Create your views here.
 def index(request):
     if not request.user.is_authenticated:
@@ -527,8 +533,10 @@ def get_client_ip(request):
 
 def submit_form(request, code):
     formInfo = Form.objects.filter(code = code)
+
     #Checking if form exists
     if formInfo.count() == 0:
+
         return HttpResponseRedirect(reverse('404'))
     else: formInfo = formInfo[0]
     if formInfo.authenticated_responder:
@@ -556,9 +564,42 @@ def submit_form(request, code):
                 answer.save()
                 response.response.add(answer)
                 response.save()
+        qr_data = Responses.objects.get(response_code = code)
+        code_name = qr_data.response_code
+        event_name = qr_data.response_to.title
+        email = qr_data.responder_email
+
+        data = f"Code Name: {code_name}\nEvent Name: {event_name}\nEmail: {email}"
+
+        qr = qrcode.QRCode(version=3, box_size=20, border=10, error_correction=qrcode.constants.ERROR_CORRECT_H)
+
+        # Define the data to be encoded in the QR code
+        # data = "https://medium.com/@rahulmallah785671/create-qr-code-by-using-python-2370d7bd9b8d"
+
+        # Add the data to the QR code object
+        qr.add_data(data)
+
+        # Make the QR code
+        qr.make(fit=True)
+
+        # Create an image from the QR code with a black fill color and white background
+        img = qr.make_image(fill_color="black", back_color="white")
+
+        # Save the QR code image
+        qr_code_path = os.path.join(settings.MEDIA_ROOT, f"{code_name}.png")
+        img.save(qr_code_path)
+        relative_qr_code_path = os.path.relpath(qr_code_path, settings.MEDIA_ROOT)
+        qr_code_download_path = os.path.join(settings.MEDIA_URL, relative_qr_code_path)
+
+        # img.save("qr_code.png")
+
+        print("This are the data for the qr code", code_name,event_name,email)
         return render(request, "index/form_response.html", {
             "form": formInfo,
-            "code": code
+            "code": code,
+            "qr_code_path": os.path.join(settings.MEDIA_URL, relative_qr_code_path) ,
+            "qr_code_download_path": qr_code_download_path  # Pass the relative QR code download path
+
         })
 
 def responses(request, code):
@@ -595,6 +636,144 @@ def responses(request, code):
         "responsesSummary": responsesSummary,
         "filteredResponsesSummary": filteredResponsesSummary
     })
+
+def phone(request, code):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    formInfo = Form.objects.filter(code = code)
+    #Checking if form exists
+    if formInfo.count() == 0:
+        return HttpResponseRedirect(reverse('404'))
+    else: formInfo = formInfo[0]
+    
+    if request.method == "POST":
+        data = json.loads(request.body)
+        phone =PhoneNumbers.objects.filter(form =formInfo)
+        if data["phone"] in phone:
+            print("Actual and it is true")
+            return JsonResponse({"message": "Phone Number Exist"})
+        print("pass here",data)
+        
+        PhoneNumbers.objects.create(
+            phone=data["phone"],
+            form=formInfo
+        )
+        print("fail here")
+    phone =PhoneNumbers.objects.filter(form =formInfo)
+    try:
+        message = MessageSent.objects.get(form=formInfo)
+    except ObjectDoesNotExist:
+        message = None  # Or any default value you prefer
+    if formInfo.creator != request.user:
+        return HttpResponseRedirect(reverse("403"))
+    if message is None:
+        return render(request, "index/phone.html", {
+            "form": formInfo,
+            "phone":phone,
+            "message":""
+        })
+    else:
+        return render(request, "index/phone.html", {
+        "form": formInfo,
+        "phone":phone,
+        "message":message.message
+    })
+def delete_phone(request, code,phone):
+    print("Our phone ", phone)
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    formInfo = Form.objects.filter(code = code)
+    #Checking if form exists
+    if formInfo.count() == 0:
+        return HttpResponseRedirect(reverse('404'))
+    else: formInfo = formInfo[0]
+    #Checking if form creator is user
+    if formInfo.creator != request.user:
+        return HttpResponseRedirect(reverse("403"))
+    if request.method == "DELETE":
+        phone = PhoneNumbers.objects.filter(phone = phone)
+        if phone.count() == 0: return HttpResponseRedirect(reverse("404"))
+        else: phone.delete()
+        return JsonResponse({"message": "Success"})
+    return render(request,"index/phone.html")
+
+
+def message(request, code):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    formInfo = Form.objects.filter(code = code)
+    #Checking if form exists
+    if formInfo.count() == 0:
+        return HttpResponseRedirect(reverse('404'))
+    else: formInfo = formInfo[0]
+    
+    if request.method == "POST":
+        data = json.loads(request.body)
+        # messages =
+        try:
+            message = MessageSent.objects.get(form=formInfo)
+        except ObjectDoesNotExist:
+            message = None  # Or any default value you prefer
+        if  message is not None:
+            message.message = data["message"]
+            message.save()
+        else:
+            print("pass here",data)
+            MessageSent.objects.create(
+                message=data["message"],
+                form=formInfo
+            )
+        print("fail here")
+    message =MessageSent.objects.get(form =formInfo)
+    print("List of message",message.message)
+    if formInfo.creator != request.user:
+        return HttpResponseRedirect(reverse("403"))
+    return render(request, "index/phone.html", {
+        "form": formInfo,
+        "message":message.message
+    })
+
+def send_message(request,code):
+    formInfo = Form.objects.filter(code = code)
+    message ="hellow Miriam , I'm shadyAI"
+    # phone = PhoneNumbers.objects.filter(form = formInfo)
+    # print("length of phone data", len(phone))
+    # print("value of phone data", phone)
+    url = "https://apisms.beem.africa/v1/send"
+    
+    data = { 
+        "source_addr": "INFO",
+        "schedule_time": '',
+        "encoding": 0,
+        "message": message,
+        "recipients": [
+
+            {
+                "recipient_id": 1,
+                "dest_addr": "255763910381"
+            }
+        ]
+    }
+
+    username = settings.BEEM_API_KEY
+    password = settings.BEEM_SECRET_KEY
+
+    response = requests.post(url, json=data, auth=HTTPBasicAuth(username, password))
+
+    if response.status_code == 200:
+        print("SMS sent successfully!")
+        return render(request, "index/phone.html", {
+        "form": formInfo,
+
+    })
+    else:
+        print("SMS sending failed. Status code:", response.status_code)
+        print("Response:", response.text)
+        return render(request, "index/phone.html", {
+        "form": formInfo,
+
+    })
+    
 
 def retrieve_checkbox_choices(response, question):
     checkbox_answers = []

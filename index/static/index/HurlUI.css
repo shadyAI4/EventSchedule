@@ -279,6 +279,9 @@ td{padding: 8px;}
 .table-white-black tr:nth-child(odd){background-color: #FFF; color: #000;}
 .table-black-white tr:nth-child(odd){background-color: #000; color: #FFF;}
 .table-black-white tr:nth-child(even){background-color: #FFF; color: #000;}
+
+
+
 @media only screen and (max-width: 600px){
 	.nav-icon{
 		display: block !important;

@@ -22,18 +22,20 @@
             </a>
             <img src="{% static 'Icon/send.png' %}" alt ="Send icon" title = "Send" class="nav-form-menu-icon small-screen" id="send-form-btn" />
             <img src="{% static 'Icon/setting.png' %}" alt="Setting icon" title = "Setting" class="nav-form-menu-icon open-setting" />
-            <button class = "btn send-form-btn big-screen" title = "Send" id="send-form-btn">Send</button>
+            <button class = "btn send-form-btn big-screen" title = "Send" id="send-form-btn">Cupy Url</button>
         </div>
     </div>
     <div class="form-topnav">
         <div class="form-navigation center">
             {% if form.is_quiz %}
-            <span class="col-4 navigation"><a href = "{% url 'edit_form' form.code %}" class="link">Questions</a></span>
-            <span class="col-4 navigation score"><a href="{% url 'score' form.code %}" class="link">Scores</a></span>
-            <span class="col-4 navigation active">Responses</span>
+            <span class="col-3 navigation"><a href = "{% url 'edit_form' form.code %}" class="link">Questions</a></span>
+            <span class="col-3 navigation score"><a href="{% url 'score' form.code %}" class="link">Scores</a></span>
+            <span class="col-3 navigation active">Responses</span>
+            <span class="col-3 navigation "><a href = "{% url 'phone' form.code %}" class="link">Phone number</a></span>
             {% else %}
-            <span class="col-6 navigation"><a href = "{% url 'edit_form' form.code %}" class="link">Questions</a></span>
-            <span class="col-6 navigation active">Responses</span>
+            <span class="col-4 navigation"><a href = "{% url 'edit_form' form.code %}" class="link">Questions</a></span>
+            <span class="col-4 navigation active">Responses</span>
+            <span class="col-4 navigation "><a href = "{% url 'phone' form.code %}" class="link">Phone number</a></span>
             {% endif %}
         </div>
     </div>

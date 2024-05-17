@@ -128,8 +128,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_ROOT =  os.path.join(BASE_DIR, 'media') 
+MEDIA_ROOT =  BASE_DIR / 'media' 
 MEDIA_URL = '/media/'
+
+
+BEEM_API_KEY="a68ee20022921d86"
+BEEM_SECRET_KEY="ZjEwYTY4MTQzMDJjOGFjMWYwMTBmNzg0ODA1NTI3OTc5ZDUzMjgwNTY4MzZjMzM3YTQ5ZDFiMGY0YjdhZjllZg=="
 '''SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
