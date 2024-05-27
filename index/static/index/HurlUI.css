@@ -43,6 +43,7 @@ body{
 	padding-left: 15px;
 	margin-right: auto;
 	margin-left: auto;
+	
 }
 .container-fluid {
   	width: 100%;
@@ -56,7 +57,7 @@ body{
 	float: left;
 }
 .bg-dark, .btn-dark{
-	background-color: #1c1e1f !important;
+	background-color: #020964 !important;
 	color: #FFF !important;
 }
 
@@ -122,7 +123,8 @@ body[theme="light"]{
 	font-family: "Poppins";
 }
 .btn-hover:hover{
-	box-shadow: 5px 2px 8px;
+	/* box-shadow: 5px 2px 8px; */
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 	opacity: .7;
 }
 .btn-danger{background-color: #E71C23; color: #FFF;}
@@ -131,10 +133,11 @@ body[theme="light"]{
 
 .box{
 	padding: 10px;
-	border: 1px solid #999;
+	border: 1px solid #ffffff;
 	border-radius: 5px;
-	width: -webkit-fill-available;
+	width: -webkit-fill-available; 
 	width: -moz-available;
+	/* width: 40rem; */
 }
 
 .box-image img, .box-image{
@@ -153,7 +156,8 @@ body[theme="light"]{
 }
 
 .box-shadow{
-	box-shadow: 3px 5px 11px;
+	/* box-shadow: 3px 5px 11px; */
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .form-label, .text-label{
@@ -176,7 +180,8 @@ body[theme="light"]{
 }
 .form-hover:hover{
 	opacity: .7;
-	box-shadow: 2px 2px 3px;
+	/* box-shadow: 2px 2px 3px; */
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .navbar{
 	margin: 0;

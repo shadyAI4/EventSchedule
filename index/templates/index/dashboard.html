@@ -48,52 +48,74 @@
             <p class="text-label">Support creator by <a href="https://github.com/kimlimjustin/google-form-clone" class="link">give a star on GitHub</a></p> {% endcomment %}
         </div>
     </div>
-    <div class="create-form">
-        <div class="container">
-            <h4 class="forms-label">Create Event</h4>
-            <div class="form-template-box">
-                <img src = "{% static 'Icon/blank-form.png' %}" alt = "Blank form" title = "Blank form" id="create-blank-form">
-                <span class="form-template-label">Blank Form</span>
+
+  
+    <div class="container">
+        <div class="form-list">
+            <div class="row align-items-stretch">
+            <div class="c-dashboardInfo col-lg-6 col-md-6">
+                <div class="wrap">
+                <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">Total User<svg
+                    class="MuiSvgIcon-root-19" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                    <path fill="none" d="M0 0h24v24H0z"></path>
+                    <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z">
+                    </path>
+                    </svg></h4><span class="hind-font caption-12 c-dashboardInfo__count">{{total_user}}</span>
+                </div>
             </div>
-            {% comment %} <div class="form-template-box big-screen">
-                <img src = "{% static 'Template/contact_information.png' %}" alt = "Contact Information" title = "Contact Information" id="create-contact-form">
-                <span class="form-template-label">Contact Information</span>
+            <div class="c-dashboardInfo col-lg-6 col-md-6">
+                <div class="wrap">
+                <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">Total Events<svg
+                    class="MuiSvgIcon-root-19" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                    <path fill="none" d="M0 0h24v24H0z"></path>
+                    <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z">
+                    </path>
+                    </svg></h4><span class="hind-font caption-12 c-dashboardInfo__count">{{total_forms}}</span>
+                </div>
             </div>
-            <div class="form-template-box big-screen">
-                <img src = "{% static 'Template/customer_feedback.png' %}" alt = "Customer Feedback" title = "Customer Feedback" id="create-customer-feedback">
-                <span class="form-template-label">Customer Feedback</span>
-            </div> {% endcomment %}
-            <div class="form-template-box big-screen">
-                <img src = "{% static 'Template/customer_feedback.png' %}" alt = "Event Registration" title = "Event Registration" id="create-event-registration">
-                <span class="form-template-label">Event Registration</span>
             </div>
         </div>
     </div>
     <div class="container">
-        <div class="form-list">
-            <p class="forms-label">List of Events Created:</p>
-            {% for i in forms %}
-            <a href = "{% url 'edit_form' i.code %}" class="form-list-link">
-                {% comment %} <div class="form-box">
-                    <div class="form-list-title"><h5 class="form-list-title-text">{{i.title}}</h5></div>
-                    {% if i.createdAt == i.updatedAt %}
-                    <p class="form-list-timestamp">{{i.createdAt}}</p>
-                    {% else %}
-                    <p class="form-list-timestamp">{{i.updatedAt}}</p>
-                    {% endif %}
-                </div> {% endcomment %}
-                <div class="polaroid">
-                    <img src = "{% static 'Icon/blank-form.png' %}" alt="Norway" style="width:100%">
-                    <div class="form-list-title"><h5 class="form-list-title-text">{{i.title}}</h5></div>
-                    {% if i.createdAt == i.updatedAt %}
-                    <p class="form-list-timestamp">{{i.createdAt}}</p>
-                    {% else %}
-                    <p class="form-list-timestamp">{{i.updatedAt}}</p>
-                    {% endif %}
-                  </div>
-            </a>
-            {% endfor %}
-        </div>
+        {% comment %} <h1>A Fancy Table</h1> {% endcomment %}
+        <table id="customers">
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+        </tr>
+        {% for i in user %}
+        <tr>
+            <td>{{ i.username }}</td>
+            <td>{{i.email}}</td>
+        </tr>
+        {% endfor %}
+        </table>
+    </div>
+
+    <div class="container">
+        {% comment %} <h1>A Fancy Table</h1> {% endcomment %}
+        <hr style="margin-top:40px">
+        <table id="customers">
+        <h4>List of Events</h4> 
+       
+        <tr>
+            <th>Title</th>
+            {% comment %} <th>Description</th> {% endcomment %}
+            <th>Creator</th>
+            <th>Created Date</th>
+        </tr>
+        
+        {% for i in forms %}
+        <tr>
+            <td>{{i.title}}</td>
+            {% comment %} <td>{{i.description}}</td> {% endcomment %}
+            <td>{{i.creator}}</td>
+            <td>{{i.createdAt}}</td>
+        </tr>
+        {% endfor %}
+        </table>
     </div>
 </div>
 {% endblock %}

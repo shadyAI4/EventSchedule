@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.index, name="index"),
     path('login', views.login_view, name="login"),
     path('register', views.register, name="register"),
+    path('dashboard', views.dashboard, name="dashboard"),
     path('form/<str:code>/export_csv', views.exportcsv,name='export_csv'), 
     path('logout', views.logout_view, name="logout"),
     path('form/create', views.create_form, name="create_form"),

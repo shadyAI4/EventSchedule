@@ -21,8 +21,28 @@ def index(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse('login'))
     forms = Form.objects.filter(creator = request.user)
+    print("this is the staff",request.user.is_staff)
     return render(request, "index/index.html", {
-        "forms": forms
+        "forms": forms,
+        "auth":request.user,
+        "admin":request.user.is_staff
+    })
+
+def dashboard(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('login'))
+    forms = Form.objects.all()
+    total_forms = forms.count()
+    user = User.objects.all()
+    total_user = user.count()
+    print("this is the authenticated user",request.user)
+    return render(request, "index/dashboard.html", {
+        "forms": forms,
+        "user":user,
+        "auth":request.user,
+        "total_user":total_user,
+        "total_forms":total_forms,
+        "admin":request.user.is_staff
     })
 
 def login_view(request):
