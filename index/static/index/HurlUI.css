@@ -137,6 +137,7 @@ body[theme="light"]{
 	border-radius: 5px;
 	width: -webkit-fill-available; 
 	width: -moz-available;
+	background-color: white;
 	/* width: 40rem; */
 }
 
@@ -164,6 +165,8 @@ body[theme="light"]{
 	font-family: "Poppins", "Arial";
 	margin: 10px 0;
 }
+
+
 
 .form-group{
 	margin: 16px 14px;

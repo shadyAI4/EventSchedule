@@ -21,6 +21,18 @@ document.addEventListener("DOMContentLoaded", () => {
             })
         })
     })
+    document.querySelectorAll(".upload-image").forEach(title => {
+        title.addEventListener("input", function(){
+            fetch(`edit_photo`, {
+                method: "POST",
+                headers: {'X-CSRFToken': csrf},
+                body: JSON.stringify({
+                    "photo": this.value
+                })
+
+            })
+        })
+    })
     document.querySelector("#input-form-description").addEventListener("input", function(){
         fetch('edit_description', {
             method: "POST",
