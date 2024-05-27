@@ -1,4 +1,4 @@
-# Google Forms CLONE
+# Event Schedule
 
 ### Demo application and feedback [here](https://google-forms-clone.herokuapp.com/form/in60XZ4GWUswvkaKEOxONvIKkhy4gl/viewform)
 
@@ -21,8 +21,8 @@ More screenshots
 
 ## Getting started:
 - Clone this repository or fork it
-    - To clone this repository type git clone `https://github.com/kimlimjustin/google-form-clone.git` on your command line
-    - To fork this repository, click fork button of this repository then type git clone `https://github.com/<your username>/google-form-clone.git`
+    - To clone this repository type git clone `https://github.com/shadyAI4/EventSchedule.git` on your command line
+    - To fork this repository, click fork button of this repository then type git clone `https://github.com/<your username>/EventSchedule.git`
 - Install all the dependencies of this project by typing `pip install -r requirements.txt`
 - Migrate the database by typing `python manage.py migrate` on the command line
 - Run the project locally by typing `python manage.py runserver` on the command line
@@ -32,13 +32,13 @@ More screenshots
 ## Deployment
 For deployment, open `form/settings.py` file and uncomment code from line 131 to 159.
 
-## License
-Distributed under the [MIT](https://github.com/kimlimjustin/google-form-clone/blob/master/LICENSE) License. See [`LICENSE`](https://github.com/kimlimjustin/google-form-clone/blob/master/LICENSE) for more information.
+<!-- ## License
+Distributed under the [MIT](https://github.com/kimlimjustin/google-form-clone/blob/master/LICENSE) License. See [`LICENSE`](https://github.com/kimlimjustin/google-form-clone/blob/master/LICENSE) for more information. -->
 
 ## Contact
-- Justin Maximillian Kimlim - [kimlimjustin@gmail.com](mailto:kimlimjustin@gmail.com)
-- Project link: https://github.com/kimlimjustin/google-form-clone
+- Shadrack A. Kajigili - [shadrackkajigili4@gmail.com@gmail.com]
+- Project link: https://github.com/shadyAI4/EventSchedule.git
 
 ## Love my work?
 
-<a href='https://ko-fi.com/kimlimjustin' target='_blank'><img height='35' style='border:0px;height:34px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' />
+<!-- <a href='https://ko-fi.com/kimlimjustin' target='_blank'><img height='35' style='border:0px;height:34px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /> -->
