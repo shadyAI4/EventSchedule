@@ -1114,6 +1114,17 @@ def delete_responses(request, code):
                 i.delete()
             response.delete()
         return JsonResponse({"message": "Success"})
+    
+    
+def get_location(request):
+    
+    if request.method == 'POST':
+        lat = request.POST.get('event_lat')
+        long = request.POST.get('event_lng')
+        
+        print("Lat ", lat, 'Long ',long)
+        
+    return render(request, 'index/location.html')
 
 # Error handler
 def FourZeroThree(request):
