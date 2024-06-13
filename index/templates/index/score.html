@@ -24,9 +24,10 @@
     </div>
     <div class="form-topnav">
         <div class="form-navigation center">
-            <span class="col-4 navigation"><a href = "{% url 'edit_form' form.code %}" class="link">Questions</a></span>
-            <span class="col-4 navigation active">Scores</span>
-            <span class="col-4 navigation"><a href = "{% url 'responses' form.code %}" class="link">Responses</a></span>
+            <span class="col-3 navigation active"><a href = "{% url 'event_location' form.code %}" class="link">Event Location</a></span>
+            <span class="col-3 navigation"><a href = "{% url 'edit_form' form.code %}" class="link">Questions</a></span>
+            <span class="col-3 navigation active">Scores</span>
+            <span class="col-3 navigation"><a href = "{% url 'responses' form.code %}" class="link">Responses</a></span>
         </div>
     </div>
     <div class="container">

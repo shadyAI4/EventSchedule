@@ -27,14 +27,16 @@
     <div class="form-topnav">
         <div class="form-navigation center">
             {% if form.is_quiz %}
-            <span class="col-3 navigation active">Questions</span>
-            <span class="col-3 navigation score"><a href = "{% url 'score' form.code %}" class="link">Scores</a></span>
+            <span class="col-3 navigation active"><a href = "{% url 'event_location' form.code %}" class="link">Event Location</a></span>
+            <span class="col-3 navigation active"><a href = "{% url 'edit_form' form.code %}" class="link">Questions</a></span>
+            <span class="col-2 navigation score"><a href = "{% url 'score' form.code %}" class="link">Scores</a></span>
+            <span class="col-2 navigation"><a href = "{% url 'responses' form.code %}" class="link">Responses</a></span>
+            <span class="col-2 navigation "><a href = "{% url 'phone' form.code %}" class="link">Phone number</a></span>
+            {% else %}
+            <span class="col-3 navigation active"><a href = "{% url 'event_location' form.code %}" class="link">Event Location</a></span>
+            <span class="col-3 navigation active"><a href = "{% url 'edit_form' form.code %}" class="link">Questions</a></span>
             <span class="col-3 navigation"><a href = "{% url 'responses' form.code %}" class="link">Responses</a></span>
             <span class="col-3 navigation "><a href = "{% url 'phone' form.code %}" class="link">Phone number</a></span>
-            {% else %}
-            <span class="col-4 navigation active">Questions</span>
-            <span class="col-4 navigation"><a href = "{% url 'responses' form.code %}" class="link">Responses</a></span>
-            <span class="col-4 navigation "><a href = "{% url 'phone' form.code %}" class="link">Phone number</a></span>
             {% endif %}
         </div>
     </div>

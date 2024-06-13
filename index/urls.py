@@ -34,6 +34,7 @@ urlpatterns = [
     path('form/<str:code>/viewform', views.view_form, name="view_form"),
     path('form/<str:code>/submit', views.submit_form, name="submit_form"),
     path('form/<str:code>/responses', views.responses, name='responses'),
+    path('form/<str:code>/event_location', views.event_location, name='event_location'),
     path('form/<str:code>/phone', views.phone, name='phone'),
     path('form/<str:code>/phone/<str:phone>', views.delete_phone, name='delete_phone'),
     path('form/<str:code>/message', views.message, name='message'),

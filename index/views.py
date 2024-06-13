@@ -5,7 +5,7 @@ from django.db import IntegrityError
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 import qrcode
-from .models import MessageSent, PhoneNumbers, User, Choices, Questions, Answer, Form, Responses
+from .models import MessageSent, PhoneNumbers, User, Choices, Questions, Answer, Form, Responses,EventLocation
 from django.core import serializers
 import json
 import random
@@ -678,6 +678,61 @@ def responses(request, code):
         "responsesSummary": responsesSummary,
         "filteredResponsesSummary": filteredResponsesSummary
     })
+
+
+def event_location(request, code):
+
+
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    formInfo = Form.objects.filter(code = code)
+    #Checking if form exists
+    if formInfo.count() == 0:
+        return HttpResponseRedirect(reverse('404'))
+    else: formInfo = formInfo[0]
+    
+    if request.method == "POST":
+        event_location_name = request.POST.get('event_location')
+        event_latitude = request.POST.get('event_lat')
+        event_longtude = request.POST.get('event_lng')
+
+        if event_longtude and event_latitude:
+            event_location, created = EventLocation.objects.get_or_create(
+                event=formInfo,
+                defaults={
+                    'event_location_name': event_location_name,
+                    'event_latitude': event_latitude,
+                    'event_longtude': event_longtude,
+                }
+            )
+
+            if not created:
+                event_location.event_location_name = event_location_name
+                event_location.event_latitude = event_latitude
+                event_location.event_longtude = event_longtude      
+                event_location.save()
+
+    event_location = EventLocation.objects.filter(event =formInfo).first()
+
+    try:
+        message = MessageSent.objects.get(form=formInfo)
+    except ObjectDoesNotExist:
+        message = None 
+    if formInfo.creator != request.user:
+        return HttpResponseRedirect(reverse("403"))
+    if message is None:
+        return render(request, "index/event_location.html", {
+            "form": formInfo,
+            "event_location":event_location,
+            "message":""
+        })
+    else:
+        return render(request, "index/event_location.html", {
+        "form": formInfo,
+        "event_location":event_location,
+        "message":message.message
+    })
+
 
 def phone(request, code):
     if not request.user.is_authenticated:
